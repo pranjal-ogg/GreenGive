@@ -2,7 +2,7 @@ export interface User {
   id: string
   email: string
   full_name: string | null
-  role: 'user' | 'admin'
+  role: 'user' | 'admin' | 'suspended'
   created_at: string
 }
 
@@ -19,6 +19,12 @@ export interface Subscription {
   users?: User
 }
 
+export interface CharityEvent {
+  date: string
+  title: string
+  location: string
+}
+
 export interface Charity {
   id: string
   name: string
@@ -27,7 +33,7 @@ export interface Charity {
   image_url: string | null
   website: string | null
   featured: boolean
-  events: any[] // JSONB array
+  events: CharityEvent[] | null
   created_at: string
 }
 

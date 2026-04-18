@@ -24,7 +24,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: { q?:
     const userId = formData.get('userId') as string
     const isSuspended = formData.get('isSuspended') === 'true'
     // We use a custom role to lock them out, ensuring type safety with existing platform logic
-    await supabaseAdmin.from('users').update({ role: isSuspended ? 'user' : ('suspended' as any) }).eq('id', userId)
+    await supabaseAdmin.from('users').update({ role: isSuspended ? 'user' : 'suspended' }).eq('id', userId)
     revalidatePath('/admin/users')
   }
 
