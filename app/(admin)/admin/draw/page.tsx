@@ -146,7 +146,7 @@ export default async function AdminDraw() {
             <div className="mb-6">
               <p className="text-xs text-slate-500 uppercase font-bold tracking-widest mb-3">Winning Numbers</p>
               <div className="flex space-x-3">
-                {typedLatestDraw.winning_numbers?.map((n: number) => (
+                {typedLatestDraw.winning_numbers?.map((n) => (
                   <div key={n} className="w-12 h-12 bg-indigo-900/50 border border-indigo-500/40 rounded-xl flex items-center justify-center font-extrabold text-lg text-indigo-200">{n}</div>
                 ))}
               </div>
@@ -198,7 +198,7 @@ export default async function AdminDraw() {
                   <td className="px-6 py-4 text-slate-500 capitalize">{d.draw_type}</td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-1">
-                      {d.winning_numbers?.map((n: number) => (
+                      {d.winning_numbers?.map((n) => (
                         <span key={n} className="w-6 h-6 bg-slate-800 rounded text-xs flex items-center justify-center font-bold text-slate-300">{n}</span>
                       ))}
                     </div>

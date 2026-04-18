@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       .eq('id', drawId)
       .single()
 
-    consttypedDraw = draw as Draw | null
+    const typedDraw = draw as Draw | null
 
     if (drawError || !typedDraw) {
       return NextResponse.json({ error: 'Draw not found' }, { status: 404 })
