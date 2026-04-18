@@ -1,10 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import Image from 'next/image'
+import { Charity } from '@/lib/types'
 
 export default async function AdminCharitiesPage() {
   const supabase = createClient()
   const { data: charities } = await supabase.from('charities').select('*').order('created_at', { ascending: false })
+  const typedCharities = charities as Charity[] | null
 
   async function addCharity(formData: FormData) {
     'use server'
@@ -14,7 +17,6 @@ export default async function AdminCharitiesPage() {
     const website = formData.get('website') as string
     const featured = formData.get('featured') === 'on'
     
-    // Quick handle for images - if they pass a real file, we use storage API
     let image_url = formData.get('image_url') as string
     const imageFile = formData.get('image_file') as File
     
@@ -86,11 +88,11 @@ export default async function AdminCharitiesPage() {
 
         <div className="md:col-span-2">
            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-             {charities?.map(c => (
+             {typedCharities?.map(c => (
                <div key={c.id} className="bg-slate-800 rounded-2xl border border-slate-700 shadow-sm overflow-hidden flex flex-col">
                  <div className="h-32 bg-slate-900 relative">
-                   {c.image_url && <img src={c.image_url} alt="Cover" className="w-full h-full object-cover" />}
-                   {c.featured && <span className="absolute top-2 right-2 bg-amber-500 text-xs font-bold text-white px-2 py-1 rounded-full shadow-md">Featured</span>}
+                   {c.image_url && <Image src={c.image_url} alt={c.name} fill className="object-cover" />}
+                   {c.featured && <span className="absolute top-2 right-2 bg-amber-500 text-xs font-bold text-white px-2 py-1 rounded-full shadow-md z-10">Featured</span>}
                  </div>
                  <div className="p-5 flex-grow flex flex-col">
                    <div className="flex justify-between items-start mb-2">

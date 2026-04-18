@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { sendDrawResultsEmail, sendWinnerNotificationEmail } from '@/lib/email'
 import { calculateMatches } from '@/lib/drawEngine'
+import { Draw, User } from '@/lib/types'
 
 export async function POST(req: Request) {
   try {
@@ -18,11 +19,13 @@ export async function POST(req: Request) {
       .eq('id', drawId)
       .single()
 
-    if (drawError || !draw) {
+    consttypedDraw = draw as Draw | null
+
+    if (drawError || !typedDraw) {
       return NextResponse.json({ error: 'Draw not found' }, { status: 404 })
     }
 
-    if (draw.status === 'published') {
+    if (typedDraw.status === 'published') {
       return NextResponse.json({ error: 'Draw already published' }, { status: 400 })
     }
 
@@ -44,20 +47,20 @@ export async function POST(req: Request) {
       scoresByUser[s.user_id].push(s.score)
     })
 
-    const winningNumbers: number[] = draw.winning_numbers
-    const month = new Date(draw.month).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+    const winningNumbers: number[] = typedDraw.winning_numbers
+    const month = new Date(typedDraw.month).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
 
-    const winnerInserts: any[] = []
+    const winnerInserts: { draw_id: string; user_id: string; match_type: string; prize_amount: number; status: string }[] = []
     const emailPromises: Promise<void>[] = []
 
     for (const sub of (activeSubs || [])) {
-      const user = (sub as any).users
+      const user = (sub as unknown as { users: User }).users
       const userNumbers = scoresByUser[sub.user_id] || []
       const matchCount = calculateMatches(winningNumbers, userNumbers)
 
-      const prizeAmount = matchCount >= 5 ? Number(draw.jackpot_amount) :
-                          matchCount >= 4 ? Number(draw.pool_4match) :
-                          matchCount >= 3 ? Number(draw.pool_3match) : null
+      const prizeAmount = matchCount >= 5 ? Number(typedDraw.jackpot_amount) :
+                          matchCount >= 4 ? Number(typedDraw.pool_4match) :
+                          matchCount >= 3 ? Number(typedDraw.pool_3match) : null
 
       // Send draw results email to all participants
       if (user?.email && userNumbers.length > 0) {
@@ -75,7 +78,7 @@ export async function POST(req: Request) {
 
       // Register winner + send winner notification
       if (matchCount >= 3 && prizeAmount !== null) {
-        const matchType = `${matchCount}match` as '5match' | '4match' | '3match'
+        const matchType = `${matchCount}match`
         winnerInserts.push({
           draw_id: drawId,
           user_id: sub.user_id,
@@ -118,8 +121,9 @@ export async function POST(req: Request) {
       winnersCount: winnerInserts.length,
       emailsSent: emailPromises.length,
     })
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('[Publish draw error]', error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

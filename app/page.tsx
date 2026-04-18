@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Suspense } from 'react'
+import { Charity, CharityContribution } from '@/lib/types'
 
 import HeroSection from '@/components/home/HeroSection'
 import HowItWorks from '@/components/home/HowItWorks'
@@ -28,9 +29,10 @@ export default async function HomePage() {
     supabase.from('charities').select('*').eq('featured', true).limit(1).maybeSingle(),
   ])
 
-  const contributions = contributionsResult.data
-  const featuredCharity = featuredCharityResult.data
-  const totalContributions = contributions?.reduce((sum: number, c: any) => sum + Number(c.amount), 0) ?? 0
+  const typedFeaturedCharities = featuredCharities as Charity[] | null
+  const contributions = contributionsResult.data as CharityContribution[] | null
+  const featuredCharity = featuredCharityResult.data as Charity | null
+  const totalContributions = contributions?.reduce((sum: number, c) => sum + Number(c.amount), 0) ?? 0
 
   return (
     <main className="bg-[#080B14]">
@@ -57,7 +59,7 @@ export default async function HomePage() {
 
       {/* 5. Charity directory preview */}
       <Suspense>
-        <CharityPreview charities={featuredCharities || []} />
+        <CharityPreview charities={typedFeaturedCharities || []} />
       </Suspense>
 
       {/* 6. Pricing */}

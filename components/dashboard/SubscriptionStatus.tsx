@@ -1,8 +1,9 @@
 'use client'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { Subscription } from '@/lib/types'
 
-export default function SubscriptionStatus({ subscription }: { subscription: any }) {
+export default function SubscriptionStatus({ subscription }: { subscription: Subscription | null }) {
   if (!subscription) return null
   
   const statusColors = subscription.status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'

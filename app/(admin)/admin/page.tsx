@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { Draw } from '@/lib/types'
 
 export default async function AdminReports() {
   const [
@@ -11,6 +12,8 @@ export default async function AdminReports() {
     supabaseAdmin.from('charity_contributions').select('amount'),
   ])
 
+  const typedDraws = draws as Draw[] | null
+
   // Calculate monthly prize pool: count active monthly subs × £10 + yearly/12 × £100
   const { data: activePlans } = await supabaseAdmin.from('subscriptions').select('plan').eq('status', 'active')
   const monthlyFee = activePlans?.reduce((sum, s) => sum + (s.plan === 'yearly' ? 100 / 12 : 10), 0) || 0
@@ -20,7 +23,7 @@ export default async function AdminReports() {
     { label: 'Active Subscribers', value: activeSubs ?? 0, color: 'indigo', icon: '👥' },
     { label: 'Monthly Prize Pool', value: `£${monthlyFee.toFixed(2)}`, color: 'emerald', icon: '💰' },
     { label: 'Total Charity Contributions', value: `£${totalContributions.toFixed(2)}`, color: 'rose', icon: '💚' },
-    { label: 'Total Draws Run', value: draws?.length ?? 0, color: 'amber', icon: '🎰' },
+    { label: 'Total Draws Run', value: typedDraws?.length ?? 0, color: 'amber', icon: '🎰' },
   ]
 
   const colorMap: Record<string, string> = {
@@ -61,10 +64,10 @@ export default async function AdminReports() {
               </tr>
             </thead>
             <tbody>
-              {draws && draws.length > 0 ? draws.map((d: any) => (
+              {typedDraws && typedDraws.length > 0 ? typedDraws.map((d) => (
                 <tr key={d.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
                   <td className="px-6 py-4 text-slate-300 font-medium">{new Date(d.month).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</td>
-                  <td className="px-6 py-4 text-slate-400">{d.draw_type}</td>
+                  <td className="px-6 py-4 text-slate-400 capitalize">{d.draw_type}</td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${d.status === 'published' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}`}>
                       {d.status}
@@ -72,7 +75,7 @@ export default async function AdminReports() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-1">
-                      {(d.winning_numbers || []).map((n: number) => (
+                      {(d.winning_numbers || []).map((n) => (
                         <span key={n} className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-xs font-bold text-white">{n}</span>
                       ))}
                     </div>

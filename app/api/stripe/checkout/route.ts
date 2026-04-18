@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     })
 
     return NextResponse.json({ url: session.url })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Checkout error:', error)
     return new NextResponse('Internal Error', { status: 500 })
   }

@@ -21,7 +21,7 @@ export function weightedDraw(allUserScores: number[]): number[] {
   while (numbers.size < 5) {
     const totalWeight = Object.entries(counts)
       .filter(([num]) => !numbers.has(Number(num))) // Exclude already picked specific numbers
-      .reduce((sum, [_, weight]) => sum + weight, 0)
+      .reduce((sum, [, weight]) => sum + weight, 0)
 
     let random = Math.random() * totalWeight
     for (const [numStr, weight] of Object.entries(counts)) {

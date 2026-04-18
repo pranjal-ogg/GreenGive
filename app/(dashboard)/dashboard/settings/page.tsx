@@ -24,7 +24,7 @@ export default async function SettingsPage() {
              You are currently dedicating <span className="font-bold text-emerald-400">{activeAllocation.contribution_pct}%</span> of your subscription to <span className="font-bold text-emerald-400">{activeAllocation.charities.name}</span>. Use the panel below to swap allocations anytime!
            </p>
          ) : (
-           <p className="text-slate-400 mb-8">You haven't designated a primary charity yet. Please do so below!</p>
+           <p className="text-slate-400 mb-8">You haven&apos;t designated a primary charity yet. Please do so below!</p>
          )}
 
          <CharitySelector charities={charities || []} />

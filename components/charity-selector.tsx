@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { selectCharity } from '@/app/actions/charity'
+import { Charity } from '@/lib/types'
 
-export default function CharitySelector({ charities }: { charities: any[] }) {
+export default function CharitySelector({ charities }: { charities: Charity[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [pct, setPct] = useState<number>(10)
   const [loading, setLoading] = useState(false)
@@ -27,7 +28,7 @@ export default function CharitySelector({ charities }: { charities: any[] }) {
     <div className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left mb-10 text-slate-800">
         {charities && charities.length > 0 ? (
-          charities.map((c: any) => (
+          charities.map((c) => (
             <div
               key={c.id}
               onClick={() => setSelectedId(c.id)}

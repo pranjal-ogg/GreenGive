@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Charity } from '@/lib/types'
 
 export default async function CharitiesPage({ searchParams }: { searchParams: { q?: string, category?: string } }) {
   const supabase = createClient()
@@ -10,6 +12,7 @@ export default async function CharitiesPage({ searchParams }: { searchParams: { 
   if (searchParams.category) query = query.eq('category', searchParams.category)
   
   const { data: charities } = await query
+  const typedCharities = charities as Charity[] | null
 
   return (
     <div className="min-h-screen bg-slate-50 py-20 px-8">
@@ -29,17 +32,17 @@ export default async function CharitiesPage({ searchParams }: { searchParams: { 
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-           {charities && charities.length > 0 ? (
-             charities.map((c: any) => (
+           {typedCharities && typedCharities.length > 0 ? (
+             typedCharities.map((c) => (
                 <Link href={`/charities/${c.id}`} key={c.id} className="group flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200 transition-all overflow-hidden cursor-pointer h-full">
                   <div className="h-48 w-full bg-slate-100 flex-shrink-0 relative overflow-hidden">
                     {c.image_url ? (
-                      <img src={c.image_url} alt={c.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <Image src={c.image_url} alt={c.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-300 font-bold tracking-widest uppercase">No Image</div>
                     )}
                     {c.featured && (
-                      <span className="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Featured</span>
+                      <span className="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-10">Featured</span>
                     )}
                   </div>
                   <div className="p-6 flex flex-col flex-grow">

@@ -1,11 +1,19 @@
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { Winner, User } from '@/lib/types'
+
+type WinnerWithDetails = Winner & { 
+  users: Pick<User, 'email' | 'full_name'> | null
+  draws: { month: string } | null
+}
 
 export default async function AdminWinners() {
   const { data: winners } = await supabaseAdmin
     .from('winners')
     .select('*, users(email, full_name), draws(month)')
     .order('created_at', { ascending: false })
+
+  const typedWinners = winners as WinnerWithDetails[] | null
 
   async function updateWinnerStatus(formData: FormData) {
     'use server'
@@ -36,7 +44,7 @@ export default async function AdminWinners() {
             </tr>
           </thead>
           <tbody>
-            {winners && winners.length > 0 ? winners.map((w: any) => (
+            {typedWinners && typedWinners.length > 0 ? typedWinners.map((w) => (
               <tr key={w.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors group">
                 <td className="px-6 py-4">
                   <div className="font-medium text-white">{w.users?.full_name || 'Unknown'}</div>
@@ -46,7 +54,7 @@ export default async function AdminWinners() {
                   {w.draws?.month ? new Date(w.draws.month).toLocaleDateString(undefined, { month: 'short', year: 'numeric' }) : '–'}
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-indigo-900/30 text-indigo-400 rounded-lg text-xs font-bold">{w.match_type}</span>
+                  <span className="px-2 py-1 bg-indigo-900/30 text-indigo-400 rounded-lg text-xs font-bold capitalize">{w.match_type}</span>
                 </td>
                 <td className="px-6 py-4 text-emerald-400 font-bold">£{Number(w.prize_amount).toFixed(2)}</td>
                 <td className="px-6 py-4">

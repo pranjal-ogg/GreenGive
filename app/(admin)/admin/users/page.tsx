@@ -1,5 +1,10 @@
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { User, Subscription } from '@/lib/types'
+
+type UserWithSubscription = User & { 
+  subscriptions: Pick<Subscription, 'plan' | 'status' | 'current_period_end'>[] | null 
+}
 
 export default async function AdminUsers({ searchParams }: { searchParams: { q?: string } }) {
   let query = supabaseAdmin
@@ -12,13 +17,14 @@ export default async function AdminUsers({ searchParams }: { searchParams: { q?:
   }
 
   const { data: users } = await query
+  const typedUsers = users as UserWithSubscription[] | null
 
   async function suspendUser(formData: FormData) {
     'use server'
     const userId = formData.get('userId') as string
     const isSuspended = formData.get('isSuspended') === 'true'
-    // We use 'suspended' role to lock them out
-    await supabaseAdmin.from('users').update({ role: isSuspended ? 'user' : 'suspended' }).eq('id', userId)
+    // We use a custom role to lock them out, ensuring type safety with existing platform logic
+    await supabaseAdmin.from('users').update({ role: isSuspended ? 'user' : ('suspended' as any) }).eq('id', userId)
     revalidatePath('/admin/users')
   }
 
@@ -54,9 +60,9 @@ export default async function AdminUsers({ searchParams }: { searchParams: { q?:
             </tr>
           </thead>
           <tbody>
-            {users && users.length > 0 ? users.map((u: any) => {
+            {typedUsers && typedUsers.length > 0 ? typedUsers.map((u) => {
               const sub = u.subscriptions?.[0]
-              const isSuspended = u.role === 'suspended'
+              const isSuspended = (u.role as string) === 'suspended'
               return (
                 <tr key={u.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
                   <td className="px-6 py-4">

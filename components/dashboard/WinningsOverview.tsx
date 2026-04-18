@@ -1,7 +1,8 @@
 'use client'
 import { motion } from 'framer-motion'
+import { Winner } from '@/lib/types'
 
-export default function WinningsOverview({ winnings }: { winnings: any[] }) {
+export default function WinningsOverview({ winnings }: { winnings: (Winner & { draws?: { month: string } })[] }) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}

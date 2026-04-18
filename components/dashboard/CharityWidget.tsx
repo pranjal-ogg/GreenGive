@@ -1,8 +1,15 @@
 'use client'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Charity } from '@/lib/types'
 
-export default function CharityWidget({ allocation }: { allocation: any }) {
+interface CharityAllocation {
+  contribution_pct: number
+  charities: Charity | null
+}
+
+export default function CharityWidget({ allocation }: { allocation: CharityAllocation | null }) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -18,9 +25,14 @@ export default function CharityWidget({ allocation }: { allocation: any }) {
          {allocation ? (
            <>
              <div className="flex items-center space-x-4 mb-6 relative z-10">
-               <div className="w-16 h-16 rounded-2xl bg-indigo-950 flex shadow-inner items-center justify-center overflow-hidden border border-indigo-500/50 border-dashed shrink-0">
+               <div className="w-16 h-16 rounded-2xl bg-indigo-950 flex shadow-inner items-center justify-center overflow-hidden border border-indigo-500/50 border-dashed shrink-0 relative">
                  {allocation.charities?.image_url ? (
-                   <img src={allocation.charities.image_url} className="w-full h-full object-cover" />
+                   <Image 
+                     src={allocation.charities.image_url} 
+                     alt={allocation.charities.name || 'Charity'}
+                     fill
+                     className="object-cover" 
+                   />
                  ) : (
                    <span className="text-indigo-400 font-bold text-xl">{allocation.charities?.name.charAt(0) || '?'}</span>
                  )}

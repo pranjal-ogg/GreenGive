@@ -39,8 +39,8 @@ export async function POST(req: Request) {
       }
     }
 
-    // Filter down to valid entries assuming users have submitted sets of tracking points
-    const entries = Object.entries(userEntries).filter(([_, nums]) => nums.length > 0)
+    // Filter down to valid entries
+    const validEntries = Object.entries(userEntries).filter(([, nums]) => nums.length > 0)
 
     // 3. Initiate engine simulation mechanics
     const winningNumbers = drawType === 'weighted' 
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 
     const userMatches: Record<string, number> = {}
 
-    for (const [userId, nums] of entries) {
+    for (const [userId, nums] of validEntries) {
       const matches = calculateMatches(winningNumbers, nums)
       userMatches[userId] = matches
       if (matches === 5) match5++
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       else if (matches === 3) match3++
     }
 
-    // 4. Trace the rollover logic tracking previous published states for jackpot inflation
+    // 4. Trace the rollover logic
     let previousJackpot = 0
     const { data: lastDraw } = await supabaseAdmin
       .from('draws')
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       .eq('status', 'published')
       .order('month', { ascending: false })
       .limit(1)
-      .single()
+      .maybeSingle()
 
     if (lastDraw) {
       const { count } = await supabaseAdmin
@@ -85,9 +85,9 @@ export async function POST(req: Request) {
     const prizes = calculatePrizes(totalRevenue, previousJackpot, { match5, match4, match3 })
 
     const thisMonth = new Date()
-    thisMonth.setDate(1) // Map identically sequentially on calendar mappings
+    thisMonth.setDate(1) 
     
-    // 6. Deposit to architecture strictly labelled 'simulated' temporarily
+    // 6. Deposit to architecture as 'simulated'
     const { data: newDraw, error: drawError } = await supabaseAdmin
       .from('draws')
       .insert({
@@ -104,8 +104,7 @@ export async function POST(req: Request) {
 
     if (drawError) throw drawError
 
-    // Pre-insert simulated draw entries to map to publishing endpoints if decided
-    const drawEntriesToInsert = entries.map(([userId, nums]) => ({
+    const drawEntriesToInsert = validEntries.map(([userId, nums]) => ({
       draw_id: newDraw.id,
       user_id: userId,
       numbers: nums
@@ -126,8 +125,9 @@ export async function POST(req: Request) {
       }
     })
 
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
     console.error(error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

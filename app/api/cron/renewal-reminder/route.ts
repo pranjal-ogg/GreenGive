@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { sendRenewalReminderEmail } from '@/lib/email'
+import { User } from '@/lib/types'
 
-// Vercel Cron: runs daily at 08:00 UTC
-// vercel.json: { "crons": [{ "path": "/api/cron/renewal-reminder", "schedule": "0 8 * * *" }] }
 export async function GET(req: Request) {
   // Protect from public access — Vercel sets this header on cron invocations
   const authHeader = req.headers.get('authorization')
@@ -31,8 +30,8 @@ export async function GET(req: Request) {
   let sent = 0
 
   for (const sub of (subs || [])) {
-    const user = (sub as any).users
-    if (!user?.email) continue
+    const user = (sub as unknown as { users: User }).users
+    if (!user?.email || !sub.current_period_end) continue
 
     const renewalDate = new Date(sub.current_period_end).toLocaleDateString('en-GB', {
       day: 'numeric', month: 'long', year: 'numeric',

@@ -3,8 +3,10 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Charity } from '@/lib/types'
 
-export default function CharityPreview({ charities }: { charities: any[] }) {
+export default function CharityPreview({ charities }: { charities: Charity[] }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
@@ -43,11 +45,11 @@ export default function CharityPreview({ charities }: { charities: any[] }) {
               >
                 <div className="h-48 bg-slate-800 overflow-hidden relative">
                   {c.image_url ? (
-                    <img
+                    <Image
                       src={c.image_url}
                       alt={c.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-700 font-black text-5xl">
@@ -55,7 +57,7 @@ export default function CharityPreview({ charities }: { charities: any[] }) {
                     </div>
                   )}
                   {c.featured && (
-                    <span className="absolute top-3 right-3 px-2 py-1 bg-amber-500 text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                    <span className="absolute top-3 right-3 px-2 py-1 bg-amber-500 text-white text-[10px] font-bold rounded-full uppercase tracking-wider z-10">
                       Featured
                     </span>
                   )}

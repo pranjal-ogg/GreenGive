@@ -17,11 +17,12 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     )
-  } catch (error: any) {
-    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    return new NextResponse(`Webhook Error: ${message}`, { status: 400 })
   }
 
-  const session = event.data.object as any
+  const session = event.data.object
 
   try {
     switch (event.type) {
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
           .from('subscriptions')
           .select('id')
           .eq('user_id', clientReferenceId)
-          .single()
+          .maybeSingle()
 
         if (existingSub) {
           await supabaseAdmin

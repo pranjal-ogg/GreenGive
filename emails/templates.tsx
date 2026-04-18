@@ -54,9 +54,9 @@ export function WelcomeEmail({ name }: { name: string }) {
           <Section style={card}>
             <Heading style={h1}>Welcome, {name || 'Golfer'} 👋</Heading>
             <Text style={p}>
-              You've joined a community that turns golf scores into real-world charity impact. Every month, your Stableford scores enter you into a prize draw — and a share of every subscription goes directly to causes you care about.
+              You&apos;ve joined a community that turns golf scores into real-world charity impact. Every month, your Stableford scores enter you into a prize draw — and a share of every subscription goes directly to causes you care about.
             </Text>
-            <Text style={p}>Here's what to do next:</Text>
+            <Text style={p}>Here&apos;s what to do next:</Text>
             <Text style={{ ...p, color: '#e5e7eb' }}>
               1. Select your charity<br />
               2. Submit your first score<br />
@@ -66,7 +66,7 @@ export function WelcomeEmail({ name }: { name: string }) {
               Set Up Your Account
             </Button>
           </Section>
-          <Text style={muted}>You're receiving this because you signed up at GreenGive. Questions? Reply to this email.</Text>
+          <Text style={muted}>You&apos;re receiving this because you signed up at GreenGive. Questions? Reply to this email.</Text>
         </Container>
       </Body>
     </Html>
@@ -85,9 +85,9 @@ export function SubscriptionConfirmedEmail({ name, plan, renewalDate }: { name: 
         <Container style={container}>
           <Text style={logo}>⛳ GreenGive</Text>
           <Section style={card}>
-            <Heading style={h1}>You're in! 🎉</Heading>
+            <Heading style={h1}>You&apos;re in! 🎉</Heading>
             <Text style={p}>
-              Your <strong style={{ color: '#10b981' }}>{plan === 'yearly' ? 'Yearly' : 'Monthly'}</strong> subscription is now active. You're automatically entered into this month's draw — just keep submitting your scores.
+              Your <strong style={{ color: '#10b981' }}>{plan === 'yearly' ? 'Yearly' : 'Monthly'}</strong> subscription is now active. You&apos;re automatically entered into this month&apos;s draw — just keep submitting your scores.
             </Text>
             <Hr style={{ borderColor: '#1f2937', margin: '20px 0' }} />
             <Text style={{ ...p, margin: '0' }}>
@@ -151,7 +151,7 @@ export function DrawResultsEmail({
               </>
             ) : (
               <>
-                <Text style={p}>You matched {matchCount} number{matchCount !== 1 ? 's' : ''} this month. Keep playing — next month's draw is already open!</Text>
+                <Text style={p}>You matched {matchCount} number{matchCount !== 1 ? 's' : ''} this month. Keep playing — next month&apos;s draw is already open!</Text>
                 <Button style={{ ...btn, backgroundColor: '#4f46e5' }} href={`${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`}>Submit New Scores</Button>
               </>
             )}
@@ -174,7 +174,7 @@ export function WinnerNotificationEmail({
   return (
     <Html>
       <Head />
-      <Preview>🏆 You've won £{prizeAmount} — claim your prize now.</Preview>
+      <Preview>🏆 You&apos;ve won £{prizeAmount} — claim your prize now.</Preview>
       <Body style={base}>
         <Container style={container}>
           <Text style={logo}>⛳ GreenGive</Text>
@@ -195,7 +195,7 @@ export function WinnerNotificationEmail({
             </Button>
             <Hr style={{ borderColor: '#1f2937', margin: '24px 0' }} />
             <Text style={{ ...p, fontSize: '13px' }}>
-              <strong style={{ color: '#f9fafb' }}>Payment method:</strong> Bank transfer. You'll be contacted for banking details once proof is verified.
+              <strong style={{ color: '#f9fafb' }}>Payment method:</strong> Bank transfer. You&apos;ll be contacted for banking details once proof is verified.
             </Text>
           </Section>
           <Text style={muted}>If you believe this is an error, please reply to this email immediately.</Text>
@@ -222,13 +222,13 @@ export function RenewalReminderEmail({ name, plan, renewalDate }: { name: string
               Hi {name || 'there'}, your <strong style={{ color: '#10b981' }}>{plan === 'yearly' ? 'Yearly' : 'Monthly'}</strong> GreenGive subscription renews on <strong style={{ color: '#f9fafb' }}>{renewalDate}</strong>.
             </Text>
             <Text style={p}>
-              Your payment method on file will be charged automatically. If you'd like to make any changes before renewal, visit your dashboard now.
+              Your payment method on file will be charged automatically. If you&apos;d like to make any changes before renewal, visit your dashboard now.
             </Text>
             <Button style={btn} href={`${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/settings`}>
               Manage Subscription
             </Button>
           </Section>
-          <Text style={muted}>You're receiving this reminder because your subscription renews within 3 days. To cancel, visit your dashboard settings.</Text>
+          <Text style={muted}>You&apos;re receiving this reminder because your subscription renews within 3 days. To cancel, visit your dashboard settings.</Text>
         </Container>
       </Body>
     </Html>

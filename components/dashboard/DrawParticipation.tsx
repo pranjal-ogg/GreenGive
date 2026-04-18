@@ -1,7 +1,8 @@
 'use client'
 import { motion } from 'framer-motion'
+import { Score } from '@/lib/types'
 
-export default function DrawParticipation({ scores, drawsEntered }: { scores: any[], drawsEntered: number }) {
+export default function DrawParticipation({ scores, drawsEntered }: { scores: Score[], drawsEntered: number }) {
   const nextDraw = new Date()
   nextDraw.setMonth(nextDraw.getMonth() + 1)
   nextDraw.setDate(1)

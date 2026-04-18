@@ -2,6 +2,8 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { Charity } from '@/lib/types'
 
 function AnimatedCounter({ target, prefix = '', suffix = '' }: { target: number; prefix?: string; suffix?: string }) {
   const ref = useRef(null)
@@ -34,8 +36,7 @@ export default function ImpactSection({
   featuredCharity,
 }: {
   totalContributions: number
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  featuredCharity: Record<string, any> | null
+  featuredCharity: Charity | null
 }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
@@ -86,10 +87,11 @@ export default function ImpactSection({
               <>
                 <div className="h-44 bg-slate-800 overflow-hidden relative">
                   {featuredCharity.image_url ? (
-                    <img
+                    <Image
                       src={featuredCharity.image_url}
                       alt={featuredCharity.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-700 font-black text-5xl">
@@ -97,7 +99,7 @@ export default function ImpactSection({
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                  <span className="absolute top-4 left-4 px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-full uppercase tracking-wider shadow-lg">
+                  <span className="absolute top-4 left-4 px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-full uppercase tracking-wider shadow-lg z-10">
                     Featured
                   </span>
                 </div>
