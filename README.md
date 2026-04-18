@@ -1,8 +1,8 @@
-# ⛳ Digital Horse
+# ⛳ GreenGive
 
 > Golf that gives back — every round funds a charity you love.
 
-Digital Horse is a full-stack subscription platform where golfers log Stableford scores, enter monthly prize draws, and automatically contribute to charities they care about.
+GreenGive is a full-stack subscription platform where golfers log Stableford scores, enter monthly prize draws, and automatically contribute to charities they care about.
 
 ---
 
@@ -47,7 +47,7 @@ Digital Horse is a full-stack subscription platform where golfers log Stableford
 ## 🏗️ Project Structure
 
 ```
-digital-horse/
+GreenGive/
 ├── app/
 │   ├── (auth)/          # Login, signup pages + server actions
 │   ├── (dashboard)/     # Authenticated user dashboard
@@ -74,8 +74,8 @@ digital-horse/
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/pranjal-ogg/digital-horse.git
-cd digital-horse
+git clone https://github.com/pranjal-ogg/GreenGive.git
+cd GreenGive
 npm install
 ```
 
