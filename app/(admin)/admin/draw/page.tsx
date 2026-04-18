@@ -52,9 +52,8 @@ export default async function AdminDraw() {
     'use server'
     const drawId = formData.get('drawId') as string
     
-    // Fetch draw + all entries
+    // Fetch draw
     const { data: draw } = await supabaseAdmin.from('draws').select('*').eq('id', drawId).single()
-    const { data: entries } = await supabaseAdmin.from('draw_entries').select('*, scores!inner(score)').eq('draw_id', drawId)
     
     // If no entries, match against users' current scores
     const { data: userScores } = await supabaseAdmin.from('scores').select('user_id, score')

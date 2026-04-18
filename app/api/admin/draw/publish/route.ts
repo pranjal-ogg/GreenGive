@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { drawEngine } from '@/lib/drawEngine'
 import { sendDrawResultsEmail, sendWinnerNotificationEmail } from '@/lib/email'
 import { calculateMatches } from '@/lib/drawEngine'
 
