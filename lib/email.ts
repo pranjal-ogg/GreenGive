@@ -9,7 +9,7 @@ import {
 } from '@/emails/templates'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'Digital Horse <noreply@digitalhorse.golf>'
+const FROM = 'GreenGive <noreply@greengive.golf>'
 
 // ——————————————————————————————————————————————————
 // Helper: send with graceful fallback (won't crash app if email fails)
@@ -31,7 +31,7 @@ async function sendEmail({ to, subject, template }: { to: string; subject: strin
 export async function sendWelcomeEmail(to: string, name: string) {
   await sendEmail({
     to,
-    subject: 'Welcome to Digital Horse 🏌️',
+    subject: 'Welcome to GreenGive 🏌️',
     template: WelcomeEmail({ name }) as React.ReactElement,
   })
 }

@@ -27,7 +27,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <span className="text-xl font-black text-white tracking-tight">⛳ Digital Horse</span>
+              <span className="text-xl font-black text-white tracking-tight">⛳ GreenGive</span>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed max-w-[220px]">
               Golf that gives back. Every subscription directly supports charities that matter.
@@ -53,7 +53,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-800/60 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-600 text-xs">
-            © {new Date().getFullYear()} Digital Horse Ltd. All rights reserved.
+            © {new Date().getFullYear()} GreenGive Ltd. All rights reserved.
           </p>
           <p className="text-slate-700 text-xs">
             Not affiliated with any golf governing body. Prize draws subject to eligibility.

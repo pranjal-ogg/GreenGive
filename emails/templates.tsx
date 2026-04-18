@@ -47,10 +47,10 @@ export function WelcomeEmail({ name }: { name: string }) {
   return (
     <Html>
       <Head />
-      <Preview>Welcome to Digital Horse — your impact starts now.</Preview>
+      <Preview>Welcome to GreenGive — your impact starts now.</Preview>
       <Body style={base}>
         <Container style={container}>
-          <Text style={logo}>⛳ Digital Horse</Text>
+          <Text style={logo}>⛳ GreenGive</Text>
           <Section style={card}>
             <Heading style={h1}>Welcome, {name || 'Golfer'} 👋</Heading>
             <Text style={p}>
@@ -66,7 +66,7 @@ export function WelcomeEmail({ name }: { name: string }) {
               Set Up Your Account
             </Button>
           </Section>
-          <Text style={muted}>You're receiving this because you signed up at Digital Horse. Questions? Reply to this email.</Text>
+          <Text style={muted}>You're receiving this because you signed up at GreenGive. Questions? Reply to this email.</Text>
         </Container>
       </Body>
     </Html>
@@ -80,10 +80,10 @@ export function SubscriptionConfirmedEmail({ name, plan, renewalDate }: { name: 
   return (
     <Html>
       <Head />
-      <Preview>Your Digital Horse subscription is active.</Preview>
+      <Preview>Your GreenGive subscription is active.</Preview>
       <Body style={base}>
         <Container style={container}>
-          <Text style={logo}>⛳ Digital Horse</Text>
+          <Text style={logo}>⛳ GreenGive</Text>
           <Section style={card}>
             <Heading style={h1}>You're in! 🎉</Heading>
             <Text style={p}>
@@ -122,7 +122,7 @@ export function DrawResultsEmail({
       <Preview>{isWinner ? `🏆 You won £${prizeAmount} in the ${month} draw!` : `${month} draw results are in.`}</Preview>
       <Body style={base}>
         <Container style={container}>
-          <Text style={logo}>⛳ Digital Horse</Text>
+          <Text style={logo}>⛳ GreenGive</Text>
           <Section style={card}>
             <Heading style={h1}>{isWinner ? `You matched ${matchCount}! 🏆` : `${month} Draw Results`}</Heading>
             <Text style={p}>Hi {name || 'there'}, the {month} monthly draw has been published.</Text>
@@ -177,7 +177,7 @@ export function WinnerNotificationEmail({
       <Preview>🏆 You've won £{prizeAmount} — claim your prize now.</Preview>
       <Body style={base}>
         <Container style={container}>
-          <Text style={logo}>⛳ Digital Horse</Text>
+          <Text style={logo}>⛳ GreenGive</Text>
           <Section style={card}>
             <Heading style={h1}>Prize Confirmed 🏆</Heading>
             <Text style={p}>
@@ -212,14 +212,14 @@ export function RenewalReminderEmail({ name, plan, renewalDate }: { name: string
   return (
     <Html>
       <Head />
-      <Preview>Your Digital Horse subscription renews in 3 days.</Preview>
+      <Preview>Your GreenGive subscription renews in 3 days.</Preview>
       <Body style={base}>
         <Container style={container}>
-          <Text style={logo}>⛳ Digital Horse</Text>
+          <Text style={logo}>⛳ GreenGive</Text>
           <Section style={card}>
             <Heading style={h1}>Renewal Reminder 📅</Heading>
             <Text style={p}>
-              Hi {name || 'there'}, your <strong style={{ color: '#10b981' }}>{plan === 'yearly' ? 'Yearly' : 'Monthly'}</strong> Digital Horse subscription renews on <strong style={{ color: '#f9fafb' }}>{renewalDate}</strong>.
+              Hi {name || 'there'}, your <strong style={{ color: '#10b981' }}>{plan === 'yearly' ? 'Yearly' : 'Monthly'}</strong> GreenGive subscription renews on <strong style={{ color: '#f9fafb' }}>{renewalDate}</strong>.
             </Text>
             <Text style={p}>
               Your payment method on file will be charged automatically. If you'd like to make any changes before renewal, visit your dashboard now.

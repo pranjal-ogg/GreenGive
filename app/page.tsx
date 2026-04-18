@@ -10,7 +10,7 @@ import PricingSection from '@/components/home/PricingSection'
 import Footer from '@/components/home/Footer'
 
 export const metadata = {
-  title: 'Digital Horse — Golf that gives back',
+  title: 'GreenGive — Golf that gives back',
   description: 'Submit your Stableford scores, enter monthly prize draws, and support the charities you love. Every subscription directly funds charitable causes.',
 }
 

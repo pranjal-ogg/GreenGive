@@ -147,4 +147,4 @@ Pool = active subscribers × monthly fee equivalent
 
 ## 📄 License
 
-MIT © 2026 Digital Horse
+MIT © 2026 GreenGive

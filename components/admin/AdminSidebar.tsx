@@ -18,10 +18,10 @@ export default function AdminSidebar() {
     <aside className="w-64 shrink-0 bg-slate-950 border-r border-slate-800 min-h-screen flex flex-col">
       <div className="p-6 border-b border-slate-800">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-rose-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">A</div>
+          <div className="w-8 h-8 bg-rose-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">G</div>
           <div>
             <p className="font-bold text-white text-sm">Admin Panel</p>
-            <p className="text-slate-500 text-xs">Digital Horse</p>
+            <p className="text-slate-500 text-xs">GreenGive</p>
           </div>
         </div>
       </div>
